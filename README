@@ -1,0 +1,16 @@
+cp_dir_watcher is a C++ Linux library designed to monitor changes to files in a directory. It is released under Boost Software License: http://www.boost.org/LICENSE_1_0.txt
+ 
+Possible usage scenario: a server is writing logs to a dir, and you want to make sure that the logs are constantly updated. So you write an app (using this project) which receives and processes a timeout event that is generated when nothing happens to a file or a dir for a certain time. Another scenario is to use provided classes to build a real-time parser which processes new data in the log files as soon as they are written to.
+
+The library consists of two classes: dir_watcher_t and file_watcher_t. Users should derive their own classes from these two classes and provide necessary functionality in the virtual callback functions defined in the base classes.
+
+Library comes with an example application: test00. It contains classes dir_watcher_tst_t and file_watcher_tst_t which inherit from dir_watcher_t and file_watcher_t. The test is watching the dir "./delme/" and 3 files in it: f1.txt, f2.txt, f3.txt and reports events to stdout.  Try creating, editing, deleting, renaming these files and see the reported events. You can delete or rename the dir itself while the program is running, but the dir must be present when the program starts.
+
+Two system libraries are used: libev and inotify: libev is used to implement the main loop and inotify reports filesystem events. These events are received by the main loop and then dispatched to the appropriate callbacks.
+
+To build the project open a terminal in the "test00" dir and run a command:
+
+make CONF=Release
+
+You can also use "make CONF=Debug", "make CONF=Release clean" or just open the project in NetBeans
+
